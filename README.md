@@ -123,8 +123,19 @@ Then proceed to modify those files to match the system paths for the items in th
 * It will then open up chromium-browser and navigate to the hostname and port.
 	* So define the url that the browser will use to connect to the main page.
 
+* Alternatively, you can decide to run OSID headless on a networked Raspberry. You can safely uncomment the chromuim line in run_app.sh. Don't forget to set local Raspbery Pi IP on server.ini
+
 #### osid.desktop
 * Just make sure the path for the run_app.sh script is defined properly.
+* if you use OSID on headless Raspberry, this file is useless.
+
+### Usage
+
+#### Accepted image file
+OSID will accept any image file ending with .img name. Other will silently be ignored.
+
+#### Auto discovery of available readers
+When refreshing web page (or accessing it), OSID will scan available readers, and after some seconds, will show them on the menu. A sum of all readers is also shown.
 
 ## Built With
 

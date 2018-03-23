@@ -121,7 +121,7 @@
                                 if (array.length == 0) {
                                     var device_html_buttons = 'No Devices Found'
                                 } else {
-                                    device_html_buttons += "<input type=\"checkbox\" onClick=\"select_all(this)\" /> Select All Devices<br/>"
+                                    device_html_buttons += "<input type=\"checkbox\" onClick=\"select_all(this)\" /> Select All Devices (" + array.length + ") <br/>"
                                     for (var i = 0; i < array.length; i++) {
                                         device_html_buttons += '<input type="checkbox" id="devices" name="devices" value="' + array[i].name + '">' + array[i].name + ' (' + array[i].size + ')' + '<br>';
                                     }

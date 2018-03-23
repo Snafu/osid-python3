@@ -91,6 +91,11 @@ class SDCardDupe(object):
         if not os.path.exists(config_parse['DuplicatorSettings']['Logs']):
             os.makedirs(config_parse['DuplicatorSettings']['Logs'])
 
+        #Save current img name to logs
+        with open(config_parse['DuplicatorSettings']['Logs'] + "/imagename.info", 'w') as out:
+            out.write(os.path.basename(img_file))
+        out.close()
+
         # Run dd command and output status into the progress.info file
         dd_cmd = "sudo dcfldd bs=4M if=" + img_file
         dd_cmd += " of=" + " of=".join(devices)
@@ -129,6 +134,11 @@ class SDCardDupe(object):
         config_parse.read( os.path.dirname(os.path.realpath(__file__)) + '/server.ini' )
         progress_file = config_parse['DuplicatorSettings']['Logs'] + "/progress.info"
 
+        # pull data from imagename.info for image name
+        with open(config_parse['DuplicatorSettings']['Logs'] + "/imagename.info", 'r') as out:
+            imgname = out.read()
+        out.close()
+
         # pull data from progress.info file and feed back to call
         cat_cmd = "sudo cat "+ progress_file
         cat_output = str(subprocess.check_output(cat_cmd, shell=True).decode("utf-8"))
@@ -143,7 +153,7 @@ class SDCardDupe(object):
 
         # send the data as a json
         cherrypy.response.headers['Content-Type'] = 'application/json'
-        return json.dumps({'percentage':percentage.replace('%',''),'time_remaining':time_remains})
+        return json.dumps({'percentage':percentage.replace('%',''),'time_remaining':time_remains,'img_name':imgname})
 
 
     @cherrypy.expose
@@ -151,6 +161,10 @@ class SDCardDupe(object):
     def getDevices(self):
 
         list_devices = []
+
+        # Refresh partition to discover all available medias
+        refresh_disk_cmd = "sudo /sbin/partprobe"
+        subprocess.check_output(refresh_disk_cmd, shell=True)
 
         # command to get a list of devices on OS
         get_disk_cmd = "lsblk -d | awk -F: '{print $1}' | awk '{print $1}'"
