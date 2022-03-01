@@ -1,3 +1,5 @@
+`NOTE: Archiving Project.`
+
 # Open Source Image Duplicator - Python3
 
 OSID offers a UI (in the form of a webpage) wrapper to dcfldd to assist in duplicating SD cards from a Raspberry Pi.
