@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Standard Libs
 import json
 import os
