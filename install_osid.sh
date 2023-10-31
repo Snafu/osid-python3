@@ -9,8 +9,7 @@ apt-get update -y
 apt-get upgrade -y
 
 echo "===Installing Required Libraries==="
-apt-get install python3 python3-pip dcfldd -y
-pip3 install cherrypy
+apt-get install python3 python3-pip python3-cherrypy3 dcfldd -y
 
 echo "===Setup Hostname to osid==="
 bash -c "echo 'osid' > /etc/hostname"
