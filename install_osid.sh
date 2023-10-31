@@ -16,7 +16,7 @@ echo "===Setup Hostname to osid==="
 bash -c "echo 'osid' > /etc/hostname"
 
 echo "===Cloning OSID Project==="
-git clone https://github.com/aaronnguyen/osid-python3.git
+git clone https://github.com/Snafu/osid-python3.git
 
 mkdir /var/osid
 mkdir /etc/osid
@@ -96,6 +96,12 @@ chown www-data:www-data /etc/osid/www -R
 echo "===Restarting Apache==="
 /etc/init.d/apache2 reload
 /etc/init.d/apache2 restart
+
+echo "===Setting up systemd==="
+ln -s /etc/nginx/etc/osid.service /etc/systemd/system/osid.service
+systemctl daemon-reload
+systemctl enable osid.service
+systemctl start osid.service
 
 echo "===Setting up Samba==="
 apt-get install samba -y

@@ -1,0 +1,15 @@
+[Unit]
+Description=Open Source Image Duplicator
+Documentation=
+After=network.target
+ConditionPathExists=/etc/osid
+
+[Service]
+WorkingDirectory=/etc/osid/system
+ExecStart=/usr/bin/env python3 /etc/osid/system/server.py
+Restart=on-failure
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

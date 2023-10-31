@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-cd /path_to/py-rpi-dupe/system
-sudo /usr/bin/python3 server.py
+systemctl is-active --quiet osid.service || gksudo systemctl start osid.service
 
 # Allow Cherrypy to boot up
 sleep 5
