@@ -25,6 +25,11 @@ class SDCardDupe(object):
         hostname_port = config_parse['DuplicatorSettings']['Host']+":"+config_parse['DuplicatorSettings']['SocketPort']
         html_string = html_string.replace("replacewithhostnamehere",hostname_port)
 
+        # command to get free disk space 
+        free_disk_space_cmd = f"df -h {config_parse['DuplicatorSettings']['ImagePath']} | tail -1 | awk '{{print $4}}'"
+        free_disk_space_cmd_output = subprocess.check_output(free_disk_space_cmd, shell=True)
+        html_string = html_string.replace("{{FREE_DISK_SPACE}}", str(free_disk_space_cmd_output.decode("utf-8")))
+
         css_string = '<style>' + open(config_parse['DuplicatorSettings']['SkeletonLocation'], 'r').read() + '</style>'
         html_string = html_string.replace("<style></style>",css_string)
 

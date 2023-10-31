@@ -40,6 +40,12 @@
                 checkboxes[i].checked = source.checked;
             }
         }
+    
+        window.addEventListener('load', () => {
+            const imgLink = document.getElementById('imglink');
+            imgLink.innerText = `\\\\${location.hostname}\\Images`;
+            imgLink.href = `file://///${location.hostname}/Images`;
+        });
     </script>
     <!-- Leave style tags here, CherryPy will replace with Skeleton CSS Template Code -->
     <style></style>
@@ -73,7 +79,7 @@
                                     var img_html_buttons = 'No Images Found'
                                 } else {
                                     for (var i = 0; i < array.length; i++) {
-                                        img_html_buttons += '<input type="radio" id="img_file" name="img_file" value="' + array[i].fullpath + '">' + array[i].filename + ' (' + array[i].filesize + ')' + '<br>';
+                                        img_html_buttons += `<label><input type="radio" id="img_file" name="img_file" value="${array[i].fullpath}">${array[i].filename} (${array[i].filesize})</label>`;
                                     }
                                 }
                                 document.getElementById("images_info").innerHTML = img_html_buttons;
@@ -83,6 +89,8 @@
                         xmlhttp.send();
                     </script>
                 </div>
+                <p>Images are taken from <a id="imglink"></a></p>
+                <p>Free disk space: {{FREE_DISK_SPACE}}</p>
             </div>
             <div class="one-third column">
                 <h6>Choose devices to write to:</h6>
