@@ -168,7 +168,7 @@ class SDCardDupe(object):
         list_devices = []
 
         # Refresh partition to discover all available medias
-        refresh_disk_cmd = "sudo /sbin/partprobe"
+        refresh_disk_cmd = 'echo "- - -" | sudo tee /sys/class/scsi_host/host0/scan'
         subprocess.check_output(refresh_disk_cmd, shell=True)
 
         # command to get a list of devices on OS
