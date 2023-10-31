@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<meta charset="UTF-8">
-
 <head>
     <title>rPi-Dupe</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="Description" content="Raspberry Pi SD Card Duplicator">
-
     <script>
         function validateForm() {
 
@@ -44,35 +41,26 @@
             }
         }
     </script>
-
     <!-- Leave style tags here, CherryPy will replace with Skeleton CSS Template Code -->
     <style></style>
-
 </head>
-
 <body>
-
-
     <div class="container">
         <div class="sixteen columns osid_icon">
-            <h8>Open Source Image Duplicator - Python v1.1.1</h8>
+            <h1>Open Source Image Duplicator - Python v1.1.1</h1>
             <hr />
         </div>
         <div class="sixteen columns">
         </div>
-
         <form id="posted" name="posted" method="POST" action="/posted" onsubmit="return validateForm()">
-
             <div class="one-third column">
-
                 <h6>Select an image:</h6>
-                <p>
+                <div>
                     <!-- Call api to get data, break down the response, and generate form -->
                     <div id="images_info"></div>
                     <script>
                         var xmlhttp = new XMLHttpRequest();
-                        // URL replacewithhostnamehere will be changed based on configuration file by CherryPy Server
-                        var url = "http://" + "replacewithhostnamehere" + "/getImages";
+                        var url = "/getImages";
 
                         xmlhttp.onreadystatechange = function() {
                             if (this.readyState == 4 && this.status == 200) {
@@ -87,29 +75,24 @@
                                     for (var i = 0; i < array.length; i++) {
                                         img_html_buttons += '<input type="radio" id="img_file" name="img_file" value="' + array[i].fullpath + '">' + array[i].filename + ' (' + array[i].filesize + ')' + '<br>';
                                     }
-
                                 }
-
                                 document.getElementById("images_info").innerHTML = img_html_buttons;
                             }
                         };
                         xmlhttp.open("GET", url, true);
                         xmlhttp.send();
                     </script>
-
-
-                </p>
+                </div>
             </div>
             <div class="one-third column">
                 <h6>Choose devices to write to:</h6>
-                <p>
+                <div>
                     <!-- Call api to get data, break down the response, and generate form -->
                     <div id="device_info"></div>
                     <script>
                         var xmlhttp = new XMLHttpRequest();
 
-                        // URL replacewithhostnamehere will be changed based on configuration file by CherryPy Server
-                        var url = "http://" + "replacewithhostnamehere" + "/getDevices";
+                        var url = "/getDevices";
 
                         xmlhttp.onreadystatechange = function() {
                             if (this.readyState == 4 && this.status == 200) {
@@ -125,34 +108,26 @@
                                     for (var i = 0; i < array.length; i++) {
                                         device_html_buttons += '<input type="checkbox" id="devices" name="devices" value="' + array[i].name + '">' + array[i].name + ' (' + array[i].size + ')' + '<br>';
                                     }
-
                                 }
-
                                 document.getElementById("device_info").innerHTML = device_html_buttons;
                             }
                         };
                         xmlhttp.open("GET", url, true);
                         xmlhttp.send();
                     </script>
-
-
-                </p>
+                </div>
             </div>
             <div class="one-third column">
                 <h6>Start writing to devices:</h6>
                 <p>
                     <input type="submit" value="Write Image to Devices" />
                 </p>
-
             </div>
         </form>
         <div class="sixteen columns">
             <hr />
             <h10>Released by <a href="http://www.rockandscissor.com/" target="_blank">Rock &amp; Scissor Enterprises Limited</a> and heavily modified by <a href="https://github.com/aaronnguyen" target="_blank">Aaron Nguyen</a> under the <a href="license.txt">GNU GPLv3</a>.</h10>
         </div>
-
     </div>
-
 </body>
-
 </html>

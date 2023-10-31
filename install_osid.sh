@@ -17,48 +17,18 @@ bash -c "echo 'osid' > /etc/hostname"
 echo "===Cloning OSID Project==="
 git clone https://github.com/Snafu/osid-python3.git
 
-mkdir /var/osid
-mkdir /etc/osid
-mkdir /etc/osid/imgroot
-cd osid-python3
-mv * /etc/osid
-cd ..
+mkdir -p /var/osid
+mkdir -p /etc/osid/imgroot
+cp -r osid-python3/* /etc/osid
 rm -rf osid-python3
 
-echo "===Installing Apache==="
-apt-get install apache2 -y
+echo "===Installing nginx==="
+apt-get install nginx -y
 
-echo "===Configuring Apache==="
-apt-get install php-pear -y
-defaultweb='
-<VirtualHost *:80>
-    ServerAdmin webmaster@localhost
-    DocumentRoot /etc/osid/www
-    <Directory />
-        Options FollowSymLinks
-        AllowOverride None
-    </Directory>
-    <Directory /etc/osid/www/>
-        Options Indexes FollowSymLinks MultiViews
-        AllowOverride None
-        Require all granted
-    </Directory>
-    ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
-    <Directory "/usr/lib/cgi-bin">
-        AllowOverride None
-        Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
-        Require all granted
-    </Directory>
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    # Possible values include: debug, info, notice, warn, error, crit,
-    # alert, emerg.
-    LogLevel warn
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>'
-echo "$defaultweb" > /etc/apache2/sites-enabled/000-default.conf
-
-bash -c "echo 'ServerName localhost' > /etc/apache2/conf-available/servername.conf"
-ln -s /etc/apache2/conf-available/servername.conf /etc/apache2/conf-enabled/servername.conf
+echo "===Configuring nginx==="
+sed -i 's/hostname:port/127.0.0.1:8080/g' /etc/osid/etc/osid-nginx-proxy.conf
+unlink /etc/nginx/sites-enabled/default
+ln -s /etc/osid/etc/osid-nginx-proxy.conf /etc/nginx/sites-enabled/000-osid-proxy.conf
 
 echo "===Fixing OSID Settings==="
 cd /etc/osid/system
@@ -76,7 +46,7 @@ sed -i 's/hostname:port/127.0.0.1:8080/g' run_app.sh
 sed -i 's/\/home\/pi\/Documents\/py-rpi-dupe/\/etc\/osid/g' osid.desktop.sample
 
 echo "===Make Desktop Icons==="
-mv osid.desktop.sample /home/pi/Desktop/osid.desktop
+mv osid.desktop.sample /home/*/Desktop/osid.desktop
 echo "[Desktop Entry]
 Name=Root File Manager
 Comment=Opens up File Manager with Root Permissions
@@ -85,16 +55,15 @@ Exec=sudo pcmanfm
 Type=Application
 Encoding=UTF-8
 Terminal=false
-Categories=None;" > /home/pi/Desktop/RootFileMan.desktop
+Categories=None;" > /home/*/Desktop/RootFileMan.desktop
 
 echo "===Configuring Directory Permissions==="
 chown www-data:www-data /etc/osid/imgroot -R
 chown www-data:www-data /etc/osid/system -R
 chown www-data:www-data /etc/osid/www -R
 
-echo "===Restarting Apache==="
-/etc/init.d/apache2 reload
-/etc/init.d/apache2 restart
+echo "===Restarting nginx==="
+systemctl restart nginx
 
 echo "===Setting up systemd==="
 ln -s /etc/nginx/etc/osid.service /etc/systemd/system/osid.service

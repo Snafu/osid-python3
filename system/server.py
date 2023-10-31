@@ -114,7 +114,7 @@ class SDCardDupe(object):
         subprocess.Popen(['sudo', 'bash', dd_cmd_file], close_fds=True)
 
         hostname_port = config_parse['DuplicatorSettings']['Host']+":"+config_parse['DuplicatorSettings']['SocketPort']
-        monitor_url = "http://" +  hostname_port + "/monitor";
+        monitor_url = "/monitor";
 
 
         html_string = "<html><head>"

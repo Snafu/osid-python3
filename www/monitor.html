@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<meta charset="UTF-8">
-
 <head>
     <title>rPi-Dupe</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="Description" content="Raspberry Pi SD Card Duplicator">
-
     <style>
         #progress_bar {
             width: 0%;
@@ -18,7 +15,6 @@
             color: #C7CFDB;
         }
     </style>
-
     <script>
         function move() {
 
@@ -33,7 +29,7 @@
 
                     var xmlhttp = new XMLHttpRequest();
                     // URL replacewithhostnamehere will be changed based on configuration file by CherryPy Server
-                    var url = "http://" + "replacewithhostnamehere" + "/getStatus";
+                    var url = "/getStatus";
 
                     // Call the api and get the status until complete.
                     xmlhttp.onreadystatechange = function() {
@@ -48,7 +44,7 @@
 
                             if (width == 100) {
                                 completed_html = "Duplication Complete: " + array.img_name + "<br>"
-                                completed_html += "<a href=\"http://replacewithhostnamehere\">Return to Start</a>"
+                                completed_html += "<a href=\"/\">Return to Start</a>"
                                 document.getElementById("StatusMessage").innerHTML = completed_html
                             } else {
                                 document.getElementById("StatusMessage").innerHTML = "Time Remaining: " + array.time_remaining
@@ -59,21 +55,14 @@
                     xmlhttp.open("GET", url, true);
                     xmlhttp.send();
 
-
-
                 }
             }
         }
     </script>
-
     <!-- Leave style tags here, CherryPy will replace with Skeleton CSS Template Code -->
     <style></style>
-
 </head>
-
 <body>
-
-
     <div class="container">
         <div class="sixteen columns osid_icon">
             <h8>Open Source Image Duplicator - Python v1.1.1</h8>
@@ -92,17 +81,11 @@
             <script type="text/javascript">
             move();
             </script>
-
         </div>
-
-
         <div class="sixteen columns">
             <hr />
             <h10>Released by <a href="http://www.rockandscissor.com/" target="_blank">Rock &amp; Scissor Enterprises Limited</a> and heavily modified by <a href="https://github.com/aaronnguyen" target="_blank">Aaron Nguyen</a> under the <a href="license.txt">GNU GPLv3</a>.</h10>
         </div>
-
     </div>
-
 </body>
-
 </html>
