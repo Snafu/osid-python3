@@ -10,8 +10,8 @@
 
             var img_check = true
             var alert_message = ""
-            var img = document.forms["posted"]["img_file"].value;
-            if (img == "") {
+            const img = document.querySelector('input[name="img_file"]:checked');
+            if (!img) {
                 alert_message += "Error: Image must be selected.\n";
                 img_check = false;
             }
